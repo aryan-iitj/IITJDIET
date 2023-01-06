@@ -251,11 +251,11 @@ class DROptions extends StatelessWidget{
             key: _formKey,
             child:ListView(
               children: <Widget>[
-                const Text("\n\nEnter the patient Id: "),
+                const Text("\n\nEnter the patient Id: \nरोगी आईडी दर्ज करें:"),
                 FormBuilderTextField(name: "Patient"),
                 FormBuilderCheckbox(
                   name: "cheatmeal",
-                  title: const Text("Was Today a usual day? \nक्या आज का दिन सामान्य था ?"),
+                  title: const Text("Today was a usual diet \n आज का दिन सामान्य आहार था"),
                 ),
 
 
@@ -591,13 +591,14 @@ class IngredientDetails extends StatelessWidget {
     ListView(
         children: <Widget>[
           Text(
-              "   Enter ingredient details for $itmName",
-              // textAlign: TextAlign.left,
-              // style: const TextStyle(
-              //     color: Colors.white,
-              //     fontSize: 16,
-              //     fontWeight: FontWeight.bold
-              // )
+              " \n   Enter ingredient details for $itmName \n   संघटक विवरण दर्ज करें ",
+
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                   color: Colors.black,
+                   fontSize: 12,
+                   fontWeight: FontWeight.bold
+              )
           ),
           const Divider(
             thickness: 5,
@@ -852,8 +853,8 @@ class FoodQuantity extends StatelessWidget {
   final List<String>ingredients;
   final String namePatient;
   final String itmName;
-  final String foodPrepared = "Prepared food details";
-  final String foodConsumed = "Consumed food details";
+  final String foodPrepared = "Prepared food details \nतैयार भोजन का विवरण देय ";
+  final String foodConsumed = "Consumed food details\nखाए गए भोजन का विवरण देय";
 
   Map<String, double> measureQty = {"Cup": 250, "Glass": 200, "Teaspoon": 4.2, "Tablespoon": 15, "Bowl": 180};
   Map<String, dynamic> mp = {};
@@ -944,14 +945,24 @@ class FoodQuantity extends StatelessWidget {
         key: _formKey,
         child: ListView(
           children: <Widget>[
-            Text("\n\n   Enter the quantity details for $itmName \n \n"),
+            Text("\n\n   Enter the quantity details for $itmName \n   मात्रा विवरण दर्ज करें \n",
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold
+                )
+            ),
             ExpansionTile(
               title: Text(
                 foodPrepared,
+                //style: TextStyle(color: Colors.white),
               ),
               tilePadding: EdgeInsets.all(10),
               backgroundColor: Colors.white,
               collapsedBackgroundColor: Colors.blue,
+                textColor: Colors.black,
+                collapsedTextColor: Colors.white,
               maintainState: true,
 
               children: <Widget>[
@@ -1019,12 +1030,15 @@ class FoodQuantity extends StatelessWidget {
 
               title: Text(
                 foodConsumed,
+               // style: TextStyle(color: Colors.white),
               ),
               tilePadding: EdgeInsets.all(10),
               backgroundColor: Colors.white,
               collapsedBackgroundColor: Colors.blue,
-              maintainState: true,
 
+              maintainState: true,
+                textColor: Colors.black,
+                collapsedTextColor: Colors.white,
               children: <Widget>[
                 Container(
                     width:300,
@@ -2045,11 +2059,12 @@ class _Tutorial extends State<Tutorial> {
         centerTitle: true,
         backgroundColor: Colors.blue[300],
       ),
-      body: Column(
-        children:   <Widget>
+      body: ListView(
+          shrinkWrap: true,
+          children:   <Widget>
         [
           const Text("\n\n   Guess your measurement by viewing these utensils"),
-          const Text("\n इन बर्तनों को देखकर अपने माप का अनुमान लगाओ | \n "),
+          const Text("\n    इन बर्तनों को देखकर अपने माप का अनुमान लगाओ | \n "),
 
           ExpansionTile(
               title: Text(
@@ -2394,6 +2409,15 @@ class DataAnalyze extends StatelessWidget {
   }
 
   void makeLst(){
+    finalLst.add(const Text("\nHere is the Nutrient analysis for the patients\nयहाँ रोगियों के लिए पोषक तत्वों का विश्लेषण है\n\n",
+        textAlign: TextAlign.center,
+        style:  TextStyle(
+            color: Colors.black,
+            fontSize: 12,
+            fontWeight: FontWeight.bold
+        )
+
+    ));
     for(int i = 0;i<finalData.length;i++){
       finalLst.add(Text(dates[i]));
       finalLst.add(
