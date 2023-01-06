@@ -21,8 +21,10 @@ import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'fetch_data.dart' as globals;
-
 import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
+
+
+
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +42,7 @@ class Home extends StatelessWidget {
     var headers = {
       'Content-Type': 'text/plain'
     };
-    var request = http.Request('GET', Uri.parse('http://10.0.2.2:8000/ALL/'));
+    var request = http.Request('GET', Uri.parse('http://harsh1111.pythonanywhere.com/ALL/'));
     request.body = '''{\r\n\t"name" : "sheep, liver",\r\n\t"quantitiy" : "4"\r\n}''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -249,11 +251,11 @@ class DROptions extends StatelessWidget{
             key: _formKey,
             child:ListView(
               children: <Widget>[
-                const Text("\n\nEnter the patient name: "),
+                const Text("\n\nEnter the patient Id: "),
                 FormBuilderTextField(name: "Patient"),
                 FormBuilderCheckbox(
                   name: "cheatmeal",
-                  title: const Text("Today was a usual day"),
+                  title: const Text("Was Today a usual day? \nक्या आज का दिन सामान्य था ?"),
                 ),
 
 
@@ -269,8 +271,8 @@ class DROptions extends StatelessWidget{
                           showDialog(
                               context: context,
                               builder: (ctx) => AlertDialog(
-                                title: const Text("Your day was not a usual one!"),
-                                content: const Text("Please only fill the recall if your diet was a usual diet."),
+                                title: const Text("Your day was not a usual one!\n आपका दिन सामान्य नहीं था !"),
+                                content: const Text("Please only fill the recall if your diet was a usual diet.\n कृपया रिकॉल केवल तभी भरें जब आपका आहार सामान्य आहार था। "),
                                 actions: <Widget>[
                                   ElevatedButton(
                                       onPressed: () {
@@ -871,7 +873,7 @@ class FoodQuantity extends StatelessWidget {
     var headers = {
       'Content-Type': 'text/plain'
     };
-    var request = http.Request('GET', Uri.parse('http://10.0.2.2:8000/ALL/'));
+    var request = http.Request('GET', Uri.parse('http://harsh1111.pythonanywhere.com/ALL/'));
     request.body = '''{\r\n\t"name" : "$nm",\r\n\t"quantitiy" : "$qty"\r\n}''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -1273,7 +1275,7 @@ class FoodQuantity extends StatelessWidget {
                   Future.wait(allItms).then((value)=>{
                     globals.ingMap.clear(),
                     writeDataNutrientInfo(pName, date),
-                    Navigator.of(context).popUntil((_) => count++ >= 2)
+                    Navigator.of(context).popUntil((_) => count++ >= 4)
 
                   });
 
@@ -1299,7 +1301,7 @@ class DRForm extends StatelessWidget {
     var headers = {
       'Content-Type': 'text/plain'
     };
-    var request = http.Request('GET', Uri.parse('http://10.0.2.2:8000/ALL/'));
+    var request = http.Request('GET', Uri.parse('http://harsh1111.pythonanywhere.com/ALL/'));
     request.body = '''{\r\n\t"name" : "$nm",\r\n\t"quantitiy" : "$qty"\r\n}''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -2398,7 +2400,7 @@ class DataAnalyze extends StatelessWidget {
           SfCartesianChart(
               primaryXAxis: CategoryAxis(
                   title: AxisTitle(
-                      text: 'X-Axis',
+                      text: 'Nutrients',
                       textStyle: const TextStyle(
                           color: Colors.deepOrange,
                           fontFamily: 'Roboto',
@@ -2420,6 +2422,7 @@ class DataAnalyze extends StatelessWidget {
           )
       );
     }
+
   }
 
 
@@ -2475,7 +2478,7 @@ class DataAnalyze extends StatelessWidget {
                       if(tst.isNotEmpty){
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MultiGraph(finalLst: finalLst))
+                            MaterialPageRoute(builder: (context) => MultiGraph(finalLst: finalLst, patientlist: patientlist))
                         )
                       },
                       /*if(tst.length > 1){
@@ -2498,8 +2501,9 @@ class DataAnalyze extends StatelessWidget {
                     });
                   }
                 },
-                child: Text("Press")
-            )
+                child: Text("Get Info")
+            ),
+
           ],
         )
     );
@@ -2507,8 +2511,9 @@ class DataAnalyze extends StatelessWidget {
 }
 
 class MultiGraph extends StatelessWidget {
-  MultiGraph({Key? key, required this.finalLst}) : super(key: key);
+  MultiGraph({Key? key, required this.finalLst, required this.patientlist}) : super(key: key);
   List<Widget> finalLst;
+  final List<String> patientlist;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2516,10 +2521,21 @@ class MultiGraph extends StatelessWidget {
         title: const Text("IITJ Diet"),
         centerTitle: true,
         backgroundColor: Colors.blue[300],
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: finalLst,
-      )
+      ),
+      floatingActionButton: ElevatedButton(onPressed:(){
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DataAnalyze(patientlist: patientlist))
+        );
+      },
+          child: Text("Back")
+      ),
     );
   }
 }
